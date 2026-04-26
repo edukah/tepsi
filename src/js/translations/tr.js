@@ -13,6 +13,9 @@ export default {
   aria_delete: 'Sil',
   aria_close: 'Kapat',
 
+  // --- Hint (slot grid altı static text) ---
+  hint_drag_or_click: 'Yüklemek için sürükleyip bırakın veya tıklayın',
+
   // --- Validation ---
   error_invalid_type: 'Dosya tipi geçersiz ({name}) — izin verilenler: {allowed}',
   error_too_large: 'Dosya çok büyük ({name}) — maksimum {maxMb}MB',

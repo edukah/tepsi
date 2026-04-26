@@ -79,7 +79,7 @@ class AjaxClient {
     const delay = 1000 + Math.random() * 2000; // 1-3s
     await this.#abortableDelay(delay, signal);
 
-    if (Math.random() > 0.15) {
+    if (Math.random() > 0.05) {  // ~95% success
       return {
         result: true,
         message: { success: [Language.t('mock_uploaded', { name: file.name })] },
@@ -100,7 +100,7 @@ class AjaxClient {
     const delay = 500 + Math.random() * 1000; // 0.5-1.5s
     await this.#abortableDelay(delay, signal);
 
-    if (Math.random() > 0.05) {
+    if (Math.random() > 0.02) {  // ~98% success
       return { result: true, message: { success: [Language.t('mock_deleted', { path })] } };
     }
 

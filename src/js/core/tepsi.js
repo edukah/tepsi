@@ -120,6 +120,12 @@ class Tepsi {
       this.#container.appendChild(slot.element);
       this.#slots.push(slot);
     }
+
+    // Static helper text (slot grid'in son satırı — grid-column: 1 / -1 ile tam genişlik)
+    const hint = document.createElement('p');
+    hint.className = 'tepsi__hint';
+    hint.textContent = Language.t('hint_drag_or_click');
+    this.#container.appendChild(hint);
   }
 
   #initFileInput () {
@@ -272,6 +278,8 @@ class Tepsi {
     slot.abort();
     slot.clearFile();
     slot.setState('empty');
+    this.#compactFilled();
+    this.#syncHiddenInputs();
     this.#showMessage({ warning: [Language.t('warning_upload_cancelled')] });
   }
 
@@ -293,6 +301,7 @@ class Tepsi {
       if (result.result) {
         slot.clearFile();
         slot.setState('empty');
+        this.#compactFilled();
         this.#syncHiddenInputs();
         this.#config.onDelete?.(path);
       } else {
@@ -303,6 +312,35 @@ class Tepsi {
       this.#showMessage({ error: [Language.t('error_delete', { message: err.message })] });
       this.#config.onError?.(err, { phase: 'delete', path });
     }
+  }
+
+  /**
+   * Filled slot'ları başa shift eder — silme/cancel sonrası ortada kalan boşluğu kapatır
+   * (Etsy/Shopify stili compact). Aktif yükleme/silme varsa atlar (UI'yı bozmamak için).
+   */
+  #compactFilled () {
+    // In-flight operation varsa atla — uploading/queued/deleting slot'larını yerinden oynatmamak için
+    const hasInFlight = this.#slots.some(s =>
+      s.state === 'queued' || s.state === 'uploading' || s.state === 'deleting'
+    );
+    if (hasInFlight) return;
+
+    const items = this.#slots
+      .filter(s => s.state === 'filled')
+      .map(s => ({ file: s.file, localFile: s.localFile }));
+
+    this.#slots.forEach((slot, i) => {
+      const item = items[i];
+      if (item) {
+        // Aynı file zaten doğru slot'taysa skip — gereksiz blob revoke+re-create flicker'ı önle
+        if (slot.state === 'filled' && slot.file === item.file) return;
+        slot.setFile(item.file, item.localFile);
+        slot.setState('filled');
+      } else if (slot.state === 'filled') {
+        slot.clearFile();
+        slot.setState('empty');
+      }
+    });
   }
 
   reorderSlots (fromIndex, toIndex) {

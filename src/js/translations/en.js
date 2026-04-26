@@ -13,6 +13,9 @@ export default {
   aria_delete: 'Delete',
   aria_close: 'Close',
 
+  // --- Hint (static text below slot grid) ---
+  hint_drag_or_click: 'Drag and drop or click to upload',
+
   // --- Validation ---
   error_invalid_type: 'Invalid file type ({name}) — allowed: {allowed}',
   error_too_large: 'File too large ({name}) — maximum {maxMb}MB',
