@@ -8,15 +8,20 @@
   "files": [
     "dist/",
     "src/js/",
-    "src/scss/",
-    "CHANGELOG.md"
+    "src/scss/"
+  ],
+  "sideEffects": [
+    "*.css",
+    "*.scss"
   ],
   "exports": {
     ".": {
       "sass": "./src/scss/main.scss",
       "style": "./dist/tepsi.min.css",
+      "import": "./dist/tepsi.esm.js",
       "default": "./dist/tepsi.esm.js"
     },
+    "./package.json": "./package.json",
     "./js/*": "./src/js/*",
     "./scss/*": "./src/scss/*",
     "./dist/*": "./dist/*"
