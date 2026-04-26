@@ -4,6 +4,8 @@ Multi-slot file uploader with drag-drop, slot grid UI, and concurrent upload que
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+> Maintained on best-effort basis. Issues welcome but not guaranteed to be addressed.
+
 ## Özellikler
 
 - 🎯 **Slot grid + placeholder** — Etsy stili, kullanıcı limit'i baştan görür
