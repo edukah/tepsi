@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Multi-slot file uploader with drag-drop, slot grid UI, and concurrent upload queue. Zero-dependency vanilla JavaScript.",
   "type": "module",
-  "main": "dist/tepsi.min.js",
+  "main": "dist/tepsi.esm.js",
   "module": "dist/tepsi.esm.js",
   "files": [
     "dist/",
