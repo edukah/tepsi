@@ -1,0 +1,77 @@
+{
+  "name": "tepsi",
+  "version": "0.1.0",
+  "description": "Multi-slot file uploader with drag-drop, slot grid UI, and concurrent upload queue. Zero-dependency vanilla JavaScript.",
+  "type": "module",
+  "main": "dist/tepsi.min.js",
+  "module": "dist/tepsi.esm.js",
+  "files": [
+    "dist/",
+    "src/js/",
+    "src/scss/",
+    "CHANGELOG.md"
+  ],
+  "exports": {
+    ".": {
+      "sass": "./src/scss/main.scss",
+      "style": "./dist/tepsi.min.css",
+      "default": "./dist/tepsi.esm.js"
+    },
+    "./js/*": "./src/js/*",
+    "./scss/*": "./src/scss/*",
+    "./dist/*": "./dist/*"
+  },
+  "style": "dist/tepsi.min.css",
+  "sass": "src/scss/main.scss",
+  "scripts": {
+    "dev": "webpack serve --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "release": "npm run build && mkdir -p docs/assets && cp --remove-destination -r dist/. docs/assets"
+  },
+  "keywords": [
+    "tepsi",
+    "file-upload",
+    "uploader",
+    "drag-drop",
+    "slot-grid",
+    "image-upload",
+    "vanilla-js",
+    "zero-dependencies",
+    "ui-component",
+    "mobile-friendly",
+    "pointer-events"
+  ],
+  "author": "edukah",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edukah/tepsi.git"
+  },
+  "bugs": {
+    "url": "https://github.com/edukah/tepsi/issues"
+  },
+  "homepage": "https://edukah.github.io/tepsi/",
+  "devDependencies": {
+    "@babel/cli": "^7.28.6",
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.0",
+    "@eslint/js": "^10.0.1",
+    "babel-loader": "^10.1.1",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^7.1.4",
+    "eslint": "^10.0.3",
+    "eslint-plugin-import-x": "^4.16.2",
+    "eslint-plugin-n": "^17.24.0",
+    "eslint-webpack-plugin": "^5.0.3",
+    "globals": "^17.4.0",
+    "mini-css-extract-plugin": "^2.10.1",
+    "sass": "^1.98.0",
+    "sass-loader": "^16.0.7",
+    "style-loader": "^4.0.0",
+    "terser-webpack-plugin": "^5.3.10",
+    "webpack": "^5.105.4",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.3",
+    "webpack-merge": "^6.0.1"
+  }
+}

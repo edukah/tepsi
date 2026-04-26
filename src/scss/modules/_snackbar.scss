@@ -1,0 +1,80 @@
+/* =========================================================================
+   TEPSI — Default Snackbar
+   Hibrit pattern: bu UI default. Consumer onMessage callback ile override edebilir.
+   ========================================================================= */
+
+.tepsi__snackbar {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  min-width: 280px;
+  max-width: 480px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  background: var(--tepsi-color-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  color: var(--tepsi-color-text);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  &--success {
+    border-left: 4px solid var(--tepsi-color-success);
+  }
+
+  &--error {
+    border-left: 4px solid var(--tepsi-color-error);
+  }
+
+  &--warning {
+    border-left: 4px solid var(--tepsi-color-warning);
+  }
+
+  &--notice {
+    border-left: 4px solid var(--tepsi-color-border-active);
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0 0 0 18px;
+    flex: 1;
+    line-height: 1.5;
+
+    li + li { margin-top: 4px; }
+  }
+
+  &__close {
+    flex-shrink: 0;
+    background: transparent;
+    border: none;
+    color: inherit;
+    opacity: 0.5;
+    cursor: pointer;
+    padding: 0 4px;
+    font-size: 20px;
+    line-height: 1;
+    transition: opacity 0.15s;
+
+    &:hover { opacity: 1; }
+
+    &:focus-visible {
+      outline: 2px solid var(--tepsi-color-border-active);
+      outline-offset: 2px;
+      opacity: 1;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .tepsi__snackbar {
+    left: 8px;
+    right: 8px;
+    transform: none;
+    min-width: 0;
+    max-width: none;
+  }
+}

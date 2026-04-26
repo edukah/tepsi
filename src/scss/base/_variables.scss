@@ -1,0 +1,19 @@
+// CSS custom properties — override at consumer level
+:root {
+  --tepsi-slot-size: 120px;
+  --tepsi-slot-gap: 12px;
+  --tepsi-slot-radius: 8px;
+
+  --tepsi-color-border: #d0d7de;
+  --tepsi-color-border-hover: #8c959f;
+  --tepsi-color-border-active: #2196f3;
+
+  --tepsi-color-bg: #ffffff;
+  --tepsi-color-bg-empty: #f6f8fa;
+  --tepsi-color-bg-error: #ffebee;
+
+  --tepsi-color-error: #d32f2f;
+  --tepsi-color-success: #2e7d32;
+  --tepsi-color-warning: #f57c00;
+  --tepsi-color-text: #1f2328;
+}

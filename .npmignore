@@ -1,0 +1,28 @@
+# Source files (excluded from publishing — only dist/ is shipped)
+config/
+examples/
+test/
+
+# Development environment
+dev/
+node_modules/
+
+# Build tools and logs
+webpack.config.js
+babel.config.js
+*.log
+
+# Editor and IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Documentation files (exclude all except README.md and CHANGELOG.md)
+*.md
+!README.md
+!CHANGELOG.md

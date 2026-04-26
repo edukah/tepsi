@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tepsi — Dev</title>
+  <link rel="stylesheet" href="_hot/build.dev.css">
+  <script src="_hot/build.dev.js"></script>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+      color: #1f2328;
+      background: #fafbfc;
+    }
+    h1 { margin: 0 0 8px; }
+    .demo-section { margin: 32px 0; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    .demo-section h2 { font-size: 18px; margin: 0 0 8px; }
+    .demo-section p { margin: 0 0 16px; color: #57606a; font-size: 14px; }
+    .demo-controls { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .demo-controls button {
+      padding: 6px 12px;
+      border: 1px solid #d0d7de;
+      background: #f6f8fa;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .demo-controls button:hover { background: #eaeef2; }
+    .demo-output { margin-top: 12px; padding: 8px 12px; background: #f6f8fa; border-radius: 4px; font-family: ui-monospace, monospace; font-size: 12px; white-space: pre-wrap; min-height: 24px; }
+    .lang-toggle { position: fixed; top: 16px; right: 16px; z-index: 100; display: flex; gap: 4px; background: #fff; padding: 4px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .lang-toggle button { border: none; background: transparent; padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+    .lang-toggle button.active { background: #2196f3; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="lang-toggle">
+    <button data-lang="tr">🇹🇷 TR</button>
+    <button data-lang="en">🇬🇧 EN</button>
+  </div>
+
+  <h1>Tepsi — Dev (hot reload)</h1>
+  <p>Multi-slot file uploader — slot grid, click+pick, drag-drop, validation, concurrent queue, server-locked delete.</p>
+
+  <section class="demo-section">
+    <h2>Single image (max=1)</h2>
+    <p>JPG / PNG, 5MB max. Tek slot.</p>
+    <form id="form-1">
+      <div id="demo-1"></div>
+    </form>
+    <div class="demo-controls">
+      <button type="button" data-tepsi-action="getFiles" data-target="#demo-1" data-output="#out-1">getFiles()</button>
+      <button type="button" data-tepsi-action="clearAll" data-target="#demo-1">clearAll()</button>
+      <button type="button" data-tepsi-action="formData" data-form="#form-1" data-output="#out-1">FormData oku</button>
+    </div>
+    <pre id="out-1" class="demo-output"></pre>
+  </section>
+
+  <section class="demo-section">
+    <h2>Multi image (max=10) + drag-drop</h2>
+    <p>JPG / PNG / WebP, 5MB max. 10 placeholder slot. Drag-drop reorder + external file drop aktif.</p>
+    <form id="form-multi">
+      <div id="demo-multi"></div>
+    </form>
+    <div class="demo-controls">
+      <button type="button" data-tepsi-action="getFiles" data-target="#demo-multi" data-output="#out-multi">getFiles()</button>
+      <button type="button" data-tepsi-action="clearAll" data-target="#demo-multi">clearAll()</button>
+      <button type="button" data-tepsi-action="formData" data-form="#form-multi" data-output="#out-multi">FormData oku</button>
+    </div>
+    <pre id="out-multi" class="demo-output"></pre>
+  </section>
+
+  <section class="demo-section">
+    <h2>Min dimensions (600×600)</h2>
+    <p>Sadece 600×600 ve büyük görseller — küçük dosya seçilince validation hatası.</p>
+    <div id="demo-dims"></div>
+  </section>
+
+  <section class="demo-section">
+    <h2>No drag-drop (sadece click+pick)</h2>
+    <p><code>dragDrop: false</code> — drag-drop modülü yüklenmez, sadece file picker.</p>
+    <div id="demo-nodrag"></div>
+  </section>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const lang = sessionStorage.getItem('tepsi-lang') || 'tr';
+
+      // Active lang highlight
+      document.querySelectorAll('.lang-toggle button').forEach(btn => {
+        if (btn.dataset.lang === lang) btn.classList.add('active');
+        btn.addEventListener('click', () => {
+          sessionStorage.setItem('tepsi-lang', btn.dataset.lang);
+          location.reload();
+        });
+      });
+
+      const baseConfig = {
+        uploadUrl: 'mock', deleteUrl: 'mock', mockMode: true,
+        languageCode: lang
+      };
+
+      new globalThis.Tepsi('#demo-1', {
+        ...baseConfig,
+        directory: 'demo/single', maxCount: 1,
+        allowedTypes: ['image/jpeg', 'image/png'], maxSizeMb: 5
+      });
+
+      new globalThis.Tepsi('#demo-multi', {
+        ...baseConfig,
+        directory: 'demo/multi', maxCount: 10,
+        allowedTypes: ['image/jpeg', 'image/png', 'image/webp'], maxSizeMb: 5
+      });
+
+      new globalThis.Tepsi('#demo-dims', {
+        ...baseConfig,
+        directory: 'demo/dims', maxCount: 4,
+        allowedTypes: ['image/jpeg', 'image/png', 'image/webp'],
+        maxSizeMb: 10, minWidth: 600, minHeight: 600
+      });
+
+      new globalThis.Tepsi('#demo-nodrag', {
+        ...baseConfig,
+        directory: 'demo/nodrag', maxCount: 5,
+        allowedTypes: ['image/jpeg', 'image/png'], maxSizeMb: 5,
+        dragDrop: false
+      });
+
+      // Demo controls
+      document.body.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-tepsi-action]');
+        if (!btn) return;
+
+        const action = btn.dataset.tepsiAction;
+        const output = btn.dataset.output ? document.querySelector(btn.dataset.output) : null;
+
+        if (action === 'formData') {
+          const form = document.querySelector(btn.dataset.form);
+          const fd = new globalThis.FormData(form);
+          const obj = Object.fromEntries(fd);
+          if (output) output.textContent = JSON.stringify(obj, null, 2) || '(boş)';
+
+          return;
+        }
+
+        const tepsi = globalThis.Tepsi.getInstance(document.querySelector(btn.dataset.target));
+        if (!tepsi) return;
+
+        if (action === 'getFiles') {
+          const files = tepsi.getFiles();
+          if (output) output.textContent = JSON.stringify(files, null, 2) || '[]';
+        } else if (action === 'clearAll') {
+          tepsi.clearAll();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+/* =========================================================================
+   TEPSI — Core grid + slot states + animations
+   ========================================================================= */
+
+@keyframes tepsi-spin {
+  to { transform: rotate(360deg); }
+}
+
+.tepsi {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--tepsi-slot-size), 1fr));
+  gap: var(--tepsi-slot-gap);
+
+  &__slot {
+    aspect-ratio: 1;
+    border: 2px dashed var(--tepsi-color-border);
+    border-radius: var(--tepsi-slot-radius);
+    background: var(--tepsi-color-bg-empty);
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+
+    // BEM modifiers — static states
+    &--empty {
+      cursor: pointer;
+
+      &:hover {
+        border-color: var(--tepsi-color-border-hover);
+        background: var(--tepsi-color-bg);
+      }
+    }
+
+    &--filled {
+      border-style: solid;
+      background: var(--tepsi-color-bg);
+      cursor: grab;
+
+      &:active { cursor: grabbing; }
+    }
+
+    // is-* state classes — JS-toggled dynamic states
+    &.is-queued,
+    &.is-uploading {
+      border-style: solid;
+      background: var(--tepsi-color-bg);
+      cursor: default;
+    }
+
+    &.is-deleting {
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+
+  // --- Preview (filled state) ---
+
+  &__preview {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;   // resim kırpılmaz — letterbox slot bg'sinde görünür
+    display: block;
+    pointer-events: none;  // pointerdown slot'a iletilsin (drag için)
+
+    &--file {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--tepsi-color-bg-empty);
+      color: var(--tepsi-color-text);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  // --- Add icon (empty state) ---
+
+  &__add-icon {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    color: var(--tepsi-color-border-hover);
+    font-size: 32px;
+    font-weight: 300;
+    cursor: pointer;
+    padding: 0;
+
+    &:focus-visible {
+      outline: 2px solid var(--tepsi-color-border-active);
+      outline-offset: -4px;
+    }
+  }
+
+  // --- Delete button (filled state, top-right) ---
+
+  &__delete-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    z-index: 2;
+    transition: background-color 0.15s;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.85);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--tepsi-color-border-active);
+      outline-offset: 2px;
+    }
+  }
+
+  // --- Loader button (queued/uploading/deleting — ring + iç içe X) ---
+
+  &__loader-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px;
+    height: 48px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    z-index: 3;
+
+    &__ring {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      animation: tepsi-spin 1.5s linear infinite;
+      transform-origin: center;
+
+      &-bg {
+        stroke: rgba(0, 0, 0, 0.12);
+        stroke-width: 3;
+        fill: none;
+      }
+
+      &-fg {
+        stroke: var(--tepsi-color-border-active);
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-dasharray: 30 70;
+        fill: none;
+      }
+    }
+
+    &__icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 28px;
+      height: 28px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      line-height: 1;
+      transition: background-color 0.15s;
+      pointer-events: none;
+    }
+
+    &:hover &__icon {
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--tepsi-color-border-active);
+      outline-offset: 2px;
+      border-radius: 50%;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+
+      .tepsi__loader-btn__icon {
+        opacity: 0.45;
+      }
+    }
+  }
+
+  // Queued state — ring static (henüz başlamadı)
+  &__slot.is-queued &__loader-btn__ring {
+    animation-play-state: paused;
+    opacity: 0.5;
+  }
+
+  // Deleting state — ring rengi error (kırmızı)
+  &__slot.is-deleting &__loader-btn__ring-fg {
+    stroke: var(--tepsi-color-error);
+  }
+}

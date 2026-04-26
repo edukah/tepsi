@@ -1,0 +1,5 @@
+[
+  { "text": "Tepsi v0.1.0", "style": "font-size: 20px; font-weight: bold; color: #ee5253" },
+  { "text": "Multi-slot file uploader with drag-drop, slot grid UI, concurrent upload queue.", "style": "font-size: 13px;" },
+  { "text": "Repository: https://github.com/edukah/tepsi", "style": "font-size: 12px; color: #999" }
+]

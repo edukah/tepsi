@@ -1,0 +1,24 @@
+/* =========================================================================
+   TEPSI — Drag-drop visual states
+   - Pointer Events (internal reorder, mobile + desktop)
+   - HTML5 Drag & Drop API (external file drop, desktop only)
+   ========================================================================= */
+
+.tepsi__slot {
+  // Source slot (currently being dragged)
+  &.is-dragging {
+    opacity: 0.4;
+    cursor: grabbing;
+  }
+
+  // Drop target (file drop OR reorder target)
+  &.is-drop-target {
+    border-color: var(--tepsi-color-border-active);
+    background: rgba(33, 150, 243, 0.08);
+
+    // Filled slot — daha belirgin shadow (insertion göstergesi)
+    &.tepsi__slot--filled {
+      box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.25);
+    }
+  }
+}
