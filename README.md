@@ -39,12 +39,35 @@ new Tepsi('#my-uploader', {
 });
 ```
 
-UMD (browser script tag):
+### Browser (no bundler)
+
+**unpkg**
+
 ```html
-<link rel="stylesheet" href="dist/tepsi.min.css">
-<script src="dist/tepsi.min.js"></script>
-<script>
-  new globalThis.Tepsi('#cont', {...});
+<link rel="stylesheet" href="https://unpkg.com/tepsi/dist/tepsi.min.css">
+<script type="module">
+  import Tepsi from 'https://unpkg.com/tepsi/dist/tepsi.esm.js';
+  new Tepsi('#cont', { uploadUrl: '...', deleteUrl: '...', directory: '...' });
+</script>
+```
+
+**jsDelivr (npm)**
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tepsi/dist/tepsi.min.css">
+<script type="module">
+  import Tepsi from 'https://cdn.jsdelivr.net/npm/tepsi/dist/tepsi.esm.js';
+  new Tepsi('#cont', { uploadUrl: '...', deleteUrl: '...', directory: '...' });
+</script>
+```
+
+**jsDelivr (GitHub — works without npm publish)**
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/edukah/tepsi/dist/tepsi.min.css">
+<script type="module">
+  import Tepsi from 'https://cdn.jsdelivr.net/gh/edukah/tepsi/dist/tepsi.esm.js';
+  new Tepsi('#cont', { uploadUrl: '...', deleteUrl: '...', directory: '...' });
 </script>
 ```
 
@@ -328,7 +351,7 @@ Both accept the same `{ success: [...], error: [...], warning: [...], notice: [.
 ```bash
 npm install
 npm run dev      # webpack dev server, port 9004
-npm run build    # production UMD + ESM build
+npm run build    # production ESM build
 npm run release  # build + copy dist/* to docs/assets/
 ```
 
